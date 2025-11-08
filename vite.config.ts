@@ -14,11 +14,7 @@ export default defineConfig(({ mode }) => ({
     host: "0.0.0.0",
     port: process.env.PORT ? parseInt(process.env.PORT) : 4173,
     strictPort: false,
-    allowedHosts: [
-      "love-note-c55d.onrender.com",
-      ".onrender.com", // Allow all Render subdomains
-      "localhost",
-    ],
+    allowedHosts: "all", // Allow all hosts for production deployment
   },
   plugins: [react(), mode === "development" && componentTagger()].filter(Boolean),
   resolve: {
