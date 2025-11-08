@@ -10,6 +10,11 @@ export default defineConfig(({ mode }) => ({
     port: 8080,
     strictPort: false,
   },
+  preview: {
+    host: "0.0.0.0",
+    port: process.env.PORT ? parseInt(process.env.PORT) : 4173,
+    strictPort: false,
+  },
   plugins: [react(), mode === "development" && componentTagger()].filter(Boolean),
   resolve: {
     alias: {
