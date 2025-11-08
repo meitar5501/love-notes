@@ -2,7 +2,10 @@ import { useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Heart, Sparkles, ArrowRight, CheckCircle2 } from "lucide-react";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Heart, Sparkles, ArrowRight, CheckCircle2, Settings, RotateCcw, Eye, EyeOff } from "lucide-react";
 
 interface LoveNote {
   id: number;
@@ -164,10 +167,18 @@ const loveNotes: LoveNote[] = [
   }
 ];
 
+// Admin password - change this to your desired admin password
+const ADMIN_PASSWORD = "admin123"; // You can change this password
+
 const Index = () => {
   const [selectedNote, setSelectedNote] = useState<LoveNote | null>(null);
   const [isOpening, setIsOpening] = useState(false);
   const [openedNotes, setOpenedNotes] = useState<Set<number>>(new Set());
+  const [isAdminDialogOpen, setIsAdminDialogOpen] = useState(false);
+  const [adminPassword, setAdminPassword] = useState("");
+  const [showAdminPassword, setShowAdminPassword] = useState(false);
+  const [adminError, setAdminError] = useState("");
+  const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(false);
 
   // Load opened notes from localStorage on mount
   useEffect(() => {
@@ -207,6 +218,32 @@ const Index = () => {
     }, 300);
   };
 
+  const handleAdminLogin = () => {
+    if (adminPassword === ADMIN_PASSWORD) {
+      setIsAdminAuthenticated(true);
+      setAdminError("");
+      setAdminPassword("");
+    } else {
+      setAdminError("סיסמת מנהל שגויה");
+      setAdminPassword("");
+    }
+  };
+
+  const handleResetOpenedNotes = () => {
+    setOpenedNotes(new Set());
+    localStorage.removeItem("openedNotes");
+    setIsAdminDialogOpen(false);
+    setIsAdminAuthenticated(false);
+    setAdminPassword("");
+  };
+
+  const handleCloseAdminDialog = () => {
+    setIsAdminDialogOpen(false);
+    setIsAdminAuthenticated(false);
+    setAdminPassword("");
+    setAdminError("");
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-[hsl(350,60%,97%)] via-[hsl(345,45%,95%)] to-[hsl(35,60%,95%)] py-12 px-4">
       <div className="max-w-4xl mx-auto">
@@ -226,11 +263,11 @@ const Index = () => {
 
         {/* Notes Grid */}
         {!selectedNote ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="flex flex-wrap justify-center gap-6">
             {loveNotes.map((note, index) => (
               <Card
                 key={note.id}
-                className="cursor-pointer transition-all duration-300 hover:scale-105 hover:shadow-xl border-2 border-[hsl(345,35%,90%)] bg-white/80 backdrop-blur-sm animate-fade-in-up"
+                className="cursor-pointer transition-all duration-300 hover:scale-105 hover:shadow-xl border-2 border-[hsl(345,35%,90%)] bg-white/80 backdrop-blur-sm animate-fade-in-up w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] max-w-sm"
                 style={{ animationDelay: `${index * 0.1}s` }}
                 onClick={() => handleOpenNote(note)}
               >
@@ -262,8 +299,9 @@ const Index = () => {
             ))}
           </div>
         ) : (
-          <div className="max-w-2xl mx-auto">
-            <Card className="border-2 border-[hsl(345,35%,90%)] bg-white/90 backdrop-blur-sm shadow-2xl animate-fade-in-up">
+          <div className="flex justify-center items-start w-full px-4">
+            <div className="max-w-2xl w-full">
+              <Card className="border-2 border-[hsl(345,35%,90%)] bg-white/90 backdrop-blur-sm shadow-2xl animate-fade-in-up">
               <CardHeader className="text-center pb-6">
                 <div className="text-6xl mb-4">{selectedNote.emoji}</div>
                 <CardTitle className="font-handwriting text-4xl md:text-5xl text-[hsl(340,40%,25%)] mb-2">
@@ -287,16 +325,121 @@ const Index = () => {
                   </Button>
                 </div>
               </CardContent>
-            </Card>
+              </Card>
+            </div>
           </div>
         )}
 
         {/* Footer */}
         <div className="text-center mt-12 animate-fade-in-up">
-          <p className="font-body text-sm text-[hsl(340,25%,50%)]">
+          <p className="font-body text-sm text-[hsl(340,25%,50%)] mb-4">
             נעשה באהבה <Heart className="inline h-4 w-4 text-[hsl(345,75%,70%)] fill-[hsl(345,75%,70%)]" /> בשבילך שחר
           </p>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => setIsAdminDialogOpen(true)}
+            className="font-body text-xs text-[hsl(340,25%,50%)] hover:text-[hsl(340,40%,25%)]"
+          >
+            <Settings className="h-3 w-3 ml-1" />
+            מנהל
+          </Button>
         </div>
+
+        {/* Admin Dialog */}
+        <Dialog open={isAdminDialogOpen} onOpenChange={handleCloseAdminDialog}>
+          <DialogContent className="font-body">
+            <DialogHeader>
+              <DialogTitle className="font-handwriting text-2xl text-[hsl(340,40%,25%)]">
+                פאנל מנהל
+              </DialogTitle>
+              <DialogDescription className="font-body text-[hsl(340,25%,50%)]">
+                {!isAdminAuthenticated
+                  ? "הכניסי את סיסמת המנהל כדי לגשת לפעולות הניהול"
+                  : "את מחוברת כמנהלת. תוכלי לאפס את כל המכתבים שנפתחו."}
+              </DialogDescription>
+            </DialogHeader>
+
+            {!isAdminAuthenticated ? (
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="admin-password" className="font-body text-[hsl(340,40%,25%)]">
+                    סיסמת מנהל
+                  </Label>
+                  <div className="relative">
+                    <Input
+                      id="admin-password"
+                      type={showAdminPassword ? "text" : "password"}
+                      value={adminPassword}
+                      onChange={(e) => {
+                        setAdminPassword(e.target.value);
+                        setAdminError("");
+                      }}
+                      placeholder="הכניסי סיסמת מנהל"
+                      className="font-body pl-10 border-[hsl(345,35%,90%)] focus:border-[hsl(345,75%,70%)] focus:ring-[hsl(345,75%,70%)]"
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                          handleAdminLogin();
+                        }
+                      }}
+                      autoFocus
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowAdminPassword(!showAdminPassword)}
+                      className="absolute left-3 top-1/2 -translate-y-1/2 text-[hsl(340,25%,50%)] hover:text-[hsl(340,40%,25%)] transition-colors"
+                    >
+                      {showAdminPassword ? (
+                        <EyeOff className="h-4 w-4" />
+                      ) : (
+                        <Eye className="h-4 w-4" />
+                      )}
+                    </button>
+                  </div>
+                  {adminError && (
+                    <p className="text-sm text-[hsl(0,70%,65%)] font-body animate-fade-in-up">
+                      {adminError}
+                    </p>
+                  )}
+                </div>
+                <DialogFooter>
+                  <Button
+                    onClick={handleAdminLogin}
+                    className="w-full font-body bg-[hsl(345,75%,70%)] hover:bg-[hsl(345,75%,65%)] text-white"
+                    disabled={!adminPassword}
+                  >
+                    התחברי כמנהלת
+                  </Button>
+                </DialogFooter>
+              </div>
+            ) : (
+              <div className="space-y-4">
+                <div className="p-4 bg-[hsl(345,45%,92%)] rounded-lg border border-[hsl(345,35%,90%)]">
+                  <p className="font-body text-sm text-[hsl(340,40%,25%)] mb-2">
+                    מספר מכתבים שנפתחו: {openedNotes.size} מתוך {loveNotes.length}
+                  </p>
+                </div>
+                <DialogFooter className="flex-col gap-2">
+                  <Button
+                    onClick={handleResetOpenedNotes}
+                    variant="destructive"
+                    className="w-full font-body"
+                  >
+                    <RotateCcw className="h-4 w-4 ml-2" />
+                    אפסי את כל המכתבים שנפתחו
+                  </Button>
+                  <Button
+                    onClick={handleCloseAdminDialog}
+                    variant="outline"
+                    className="w-full font-body"
+                  >
+                    סגרי
+                  </Button>
+                </DialogFooter>
+              </div>
+            )}
+          </DialogContent>
+        </Dialog>
       </div>
     </div>
   );

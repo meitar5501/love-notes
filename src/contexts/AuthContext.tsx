@@ -9,7 +9,7 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 // Set your password here - in a real app, this would be stored securely
-const CORRECT_PASSWORD = "love"; // You can change this password
+const CORRECT_PASSWORD = "shahar1337"; // You can change this password
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
