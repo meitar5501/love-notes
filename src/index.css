@@ -1,0 +1,168 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    /* Romantic cream and pink palette */
+    --background: 350 60% 97%;
+    --foreground: 340 40% 25%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 340 40% 25%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 340 40% 25%;
+
+    /* Soft blush pink */
+    --primary: 345 75% 70%;
+    --primary-foreground: 0 0% 100%;
+
+    /* Warm cream */
+    --secondary: 35 60% 95%;
+    --secondary-foreground: 340 40% 25%;
+
+    /* Light pink muted */
+    --muted: 345 45% 92%;
+    --muted-foreground: 340 25% 50%;
+
+    /* Coral accent */
+    --accent: 0 70% 75%;
+    --accent-foreground: 340 40% 25%;
+
+    /* Soft red for destructive */
+    --destructive: 0 70% 65%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 345 35% 90%;
+    --input: 345 35% 90%;
+    --ring: 345 75% 70%;
+
+    --radius: 1rem;
+
+    /* Love theme specific colors */
+    --love-pink: 345 75% 70%;
+    --love-cream: 35 60% 95%;
+    --love-red: 0 70% 75%;
+    --love-lavender: 280 45% 85%;
+
+    --sidebar-background: 350 60% 97%;
+    --sidebar-foreground: 340 40% 25%;
+    --sidebar-primary: 345 75% 70%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 345 45% 92%;
+    --sidebar-accent-foreground: 340 40% 25%;
+    --sidebar-border: 345 35% 90%;
+    --sidebar-ring: 345 75% 70%;
+  }
+
+  .dark {
+    /* Romantic dark mode - deep rose and warm tones */
+    --background: 340 30% 12%;
+    --foreground: 345 45% 92%;
+
+    --card: 340 25% 15%;
+    --card-foreground: 345 45% 92%;
+
+    --popover: 340 25% 15%;
+    --popover-foreground: 345 45% 92%;
+
+    --primary: 345 65% 60%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 340 20% 20%;
+    --secondary-foreground: 345 45% 92%;
+
+    --muted: 340 20% 20%;
+    --muted-foreground: 340 20% 65%;
+
+    --accent: 0 60% 65%;
+    --accent-foreground: 345 45% 92%;
+
+    --destructive: 0 65% 55%;
+    --destructive-foreground: 345 45% 92%;
+
+    --border: 340 20% 20%;
+    --input: 340 20% 20%;
+    --ring: 345 65% 60%;
+
+    --love-pink: 345 65% 60%;
+    --love-cream: 35 30% 25%;
+    --love-red: 0 60% 65%;
+    --love-lavender: 280 35% 55%;
+
+    --sidebar-background: 340 30% 12%;
+    --sidebar-foreground: 345 45% 92%;
+    --sidebar-primary: 345 65% 60%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 340 20% 20%;
+    --sidebar-accent-foreground: 345 45% 92%;
+    --sidebar-border: 340 20% 20%;
+    --sidebar-ring: 345 65% 60%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-body;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-handwriting;
+  }
+}
+
+@layer utilities {
+  .font-handwriting {
+    font-family: 'Varela Round', 'Assistant', sans-serif;
+  }
+
+  .font-body {
+    font-family: 'Assistant', 'Heebo', sans-serif;
+  }
+
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  @keyframes envelope-open {
+    0% {
+      transform: rotateX(0deg);
+    }
+    100% {
+      transform: rotateX(180deg);
+    }
+  }
+
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  .animate-fade-in-up {
+    animation: fadeInUp 0.6s ease-out forwards;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
