@@ -5,167 +5,52 @@ import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Heart, Sparkles, ArrowRight, CheckCircle2, Settings, RotateCcw, Eye, EyeOff } from "lucide-react";
+import { Heart, Sparkles, ArrowRight, CheckCircle2, Settings, RotateCcw, Eye, EyeOff, Download } from "lucide-react";
 
 interface LoveNote {
   id: number;
   title: string;
   message: string;
   emoji: string;
+  image: string;
 }
 
-const loveNotes: LoveNote[] = [
-  {
-    id: 1,
-    title: "כשאת מרגישה מדוכדכת",
-    message: "את כל כך אהובה, גם בימים הקשים ביותר שלך. הכוח שלך מדהים אותי, ואני כאן בשבילך תמיד. זכרי, התחושה הזו תחלוף, וימים בהירים יותר מחכים. את יכולה לעשות את זה, נשמה יפה.",
-    emoji: "💕"
-  },
-  {
-    id: 2,
-    title: "כשאת צריכה עידוד",
-    message: "אני מאמין בך יותר ממה שאת יודעת. את מסוגלת לדברים מדהימים, ואני כל כך גאה במי שאת. המשיכי הלאה, המשיכי לגדול, וזכרי שכל צעד קדימה חשוב. את עושה נהדר!",
-    emoji: "✨"
-  },
-  {
-    id: 3,
-    title: "כשאת מתגעגעת אליי",
-    message: "גם כשאנחנו רחוקים, את תמיד בליבי. מרחק לא יכול להפחית את מה שאנחנו חולקים. עצמי את העיניים, קחי נשימה עמוקה, ותרגישי את האהבה שלי מקיפה אותך. אני חושב עלייך עכשיו.",
-    emoji: "💌"
-  },
-  {
-    id: 4,
-    title: "כשאת צריכה חיוך",
-    message: "יש לך החיוך הכי יפה בעולם, והוא מאיר את כל היום שלי. אני מקווה שהמכתב הזה יביא חיוך לפנים שלך, כי את ראויה לכל האושר בעולם. את הופכת הכל לטוב יותר רק בעצם היותך את.",
-    emoji: "😊"
-  },
-  {
-    id: 5,
-    title: "כשאת לחוצה",
-    message: "קחי רגע לנשום. את לא צריכה לשאת הכל לבד. אני כאן כדי לעזור להקל על העומס שלך. זכרי, זה בסדר לנוח, זה בסדר לבקש עזרה, וזה בסדר לא להיות מושלמת. את מספיקה, בדיוק כמו שאת.",
-    emoji: "🌙"
-  },
-  {
-    id: 6,
-    title: "סתם ככה",
-    message: "שחר יקרה שלי, בלי סיבה מיוחדת—רק רציתי להזכיר לך שאת אהובה, יקרה ומעריכה. את מביאה כל כך הרבה שמחה ואור לחיים שלי, ואני אסיר תודה על כל רגע איתך. את האדם האהוב עליי ביותר.",
-    emoji: "💖"
-  },
-  {
-    id: 7,
-    title: "כשאת חושבת שאת לא מספיק טובה",
-    message: "את יותר ממספיק טובה. את מושלמת בדיוק כמו שאת. כל יום שאני מכיר אותך יותר, אני מתאהב בך יותר. את מדהימה, ואני כל כך בר מזל שיש לי אותך בחיים שלי.",
-    emoji: "🌟"
-  },
-  {
-    id: 8,
-    title: "כשאת חוגגת הצלחה",
-    message: "אני כל כך גאה בך! כל הצלחה שלך היא גם הצלחה שלי. את עובדת כל כך קשה, ואת ראויה לכל הטוב שבא. המשיכי להאיר את העולם עם הכישרונות המדהימים שלך.",
-    emoji: "🎉"
-  },
-  {
-    id: 9,
-    title: "כשאת מרגישה בודדה",
-    message: "את אף פעם לא לבד. אני כאן, תמיד. גם אם אנחנו לא ביחד פיזית, הלב שלי תמיד איתך. את חלק ממני, ואני חלק ממך. האהבה שלנו חזקה יותר מכל מרחק.",
-    emoji: "🤗"
-  },
-  {
-    id: 10,
-    title: "כשאת צריכה להאמין בעצמך",
-    message: "יש לך כוח שלא תוכלי לדמיין. את מסוגלת לכל דבר שתחליטי לעשות. אני רואה את הפוטנציאל המדהים שלך, ואני יודע שאת תגיעי לכל מקום שתחליטי. האמיני בעצמך כמו שאני מאמין בך.",
-    emoji: "💪"
-  },
-  {
-    id: 11,
-    title: "כשאת מתגעגעת לבית",
-    message: "בית הוא לא מקום, זה את. איתך אני מרגיש בבית. איתך אני מרגיש בטוח, אהוב ומובן. תודה לך על כך שאת הבית שלי, על כך שאת המקום הכי בטוח שלי בעולם.",
-    emoji: "🏠"
-  },
-  {
-    id: 12,
-    title: "כשאת צריכה תמיכה",
-    message: "אני כאן בשבילך, תמיד. את לא צריכה להתמודד עם שום דבר לבד. ביחד אנחנו חזקים יותר. תמיד תוכלי לסמוך עליי, תמיד אהיה שם כדי לתמוך בך, לעודד אותך ולעזור לך.",
-    emoji: "🤝"
-  },
-  {
-    id: 13,
-    title: "כשאת מרגישה יפה",
-    message: "את הכי יפה בעולם, גם כשלא את מרגישה ככה. היופי שלך הוא לא רק חיצוני—הוא נשמתי, עמוק, אמיתי. את מאירה את העולם רק בעצם היותך. את מדהימה.",
-    emoji: "🌺"
-  },
-  {
-    id: 14,
-    title: "כשאת צריכה סליחה",
-    message: "כולנו עושים טעויות, וזה בסדר. מה שחשוב זה שאנחנו לומדים וגדלים. אני סולח לך, ואני אוהב אותך בדיוק כמו שאת. את לא צריכה להיות מושלמת—את צריכה להיות את.",
-    emoji: "🕊️"
-  },
-  {
-    id: 15,
-    title: "כשאת חושבת על העתיד",
-    message: "העתיד שלנו ביחד נראה כל כך יפה. אני לא יכול לחכות לחלוק איתך עוד רגעים, עוד חוויות, עוד אהבה. כל יום איתך הוא מתנה, וכל יום בעתיד יהיה עוד יותר יפה.",
-    emoji: "🔮"
-  },
-  {
-    id: 16,
-    title: "כשאת צריכה להזכיר לעצמך מי את",
-    message: "את אישה חזקה, חכמה, יפה ומיוחדת. את מישהי שמביאה אור לכל מי שסביבה. את מישהי שאני גאה להכיר, גאה לאהוב, גאה להיות איתה. את מיוחדת, ואני כל כך בר מזל שיש לי אותך.",
-    emoji: "👑"
-  },
-  {
-    id: 17,
-    title: "כשאת מרגישה מוצפת",
-    message: "קחי את הזמן שלך. אין צורך למהר. אני כאן, מחכה בסבלנות. את לא צריכה לעשות הכל בבת אחת. קחי נשימה, קחי רגע, ואני אהיה כאן כשתצטרכי אותי.",
-    emoji: "🌊"
-  },
-  {
-    id: 18,
-    title: "כשאת צריכה לדעת שאני אוהב אותך",
-    message: "שחר יקרה שלי, אני אוהב אותך יותר ממה שאת יכולה לדמיין. האהבה שלי אלייך היא אינסופית, ללא תנאים, ללא גבולות. את הכי חשובה לי בעולם, ואני אעשה הכל כדי שתרגישי אהובה ומאושרת.",
-    emoji: "💝"
-  },
-  {
-    id: 19,
-    title: "כשאת צריכה השראה",
-    message: "את ההשראה שלי. כל יום שאני רואה אותך, את מזכירה לי מה זה אומר לחיות באמת, לאהוב באמת, להיות אמיתי. את מלמדת אותי כל יום משהו חדש, ואני כל כך אסיר תודה על זה.",
-    emoji: "💡"
-  },
-  {
-    id: 20,
-    title: "כשאת חושבת על העבר",
-    message: "כל רגע שהיה לנו ביחד הוא יקר לי. כל זיכרון, כל צחוק, כל דמעה—כל זה חלק מהסיפור היפה שלנו. העבר שלנו בנה את האהבה החזקה שלנו, והעתיד שלנו יהיה עוד יותר יפה.",
-    emoji: "📸"
-  },
-  {
-    id: 21,
-    title: "כשאת צריכה להרגיש בטוחה",
-    message: "איתך אני מרגיש הכי בטוח בעולם, ואני רוצה שגם את תרגישי כך איתי. את יכולה להיות את עצמך איתי, בלי מסכות, בלי פחד. אני אוהב אותך בדיוק כמו שאת, ואני תמיד אהיה כאן בשבילך.",
-    emoji: "🛡️"
-  },
-  {
-    id: 22,
-    title: "כשאת צריכה להזכיר לעצמך שאת חזקה",
-    message: "את חזקה יותר ממה שאת חושבת. את התמודדת עם כל כך הרבה, ואת עושה את זה כל כך יפה. את לא צריכה להיות מושלמת—את צריכה להיות את. ואת, בדיוק כמו שאת, היא מדהימה.",
-    emoji: "⚡"
-  },
-  {
-    id: 23,
-    title: "כשאת צריכה להרגיש מוערכת",
-    message: "את כל כך מוערכת. כל מה שאת עושה, כל מי שאת, כל מה שאת מביאה לחיים שלי—כל זה כל כך יקר לי. אני מעריך אותך יותר ממה שאת יכולה לדמיין, ואני כל כך אסיר תודה על כל רגע איתך.",
-    emoji: "💎"
-  },
-  {
-    id: 24,
-    title: "כשאת צריכה להזכיר לעצמך שאת אהובה",
-    message: "את כל כך אהובה. לא רק על ידי, אלא על ידי כל מי שמכיר אותך. את מביאה כל כך הרבה טוב לעולם, ואת ראויה לכל האהבה בעולם. זכרי תמיד—את אהובה, יקרה, ומיוחדת.",
-    emoji: "💐"
-  },
-  {
-    id: 25,
-    title: "כשאת צריכה להזכיר לעצמך שאת מיוחדת",
-    message: "שחר יקרה שלי, אין עוד מישהי כמוך בעולם. את אחת ויחידה, מיוחדת במינה, יקרה מפז. כל יום שאני מכיר אותך יותר, אני מבין כמה את מיוחדת. תודה לך על כך שאת מי שאת, תודה לך על כך שאת את.",
-    emoji: "🦋"
+interface NoteIndex {
+  id: number;
+  filename: string;
+}
+
+// Parse a note file content
+const parseNoteFile = (content: string, id: number): LoveNote => {
+  const lines = content.split('\n');
+  let title = '';
+  let emoji = '';
+  let message = '';
+  let image = ''; // שדה חדש לתמונה
+  let currentSection = '';
+
+  for (const line of lines) {
+    if (line.startsWith('Title:')) {
+      title = line.replace('Title:', '').trim();
+    } else if (line.startsWith('Emoji:')) {
+      emoji = line.replace('Emoji:', '').trim();
+    } else if (line.startsWith('Image:')) {
+      image = line.replace('Image:', '').trim(); // אחסון נתיב/URL לתמונה
+    } else if (line.startsWith('Message:')) {
+      currentSection = 'message';
+    } else if (currentSection === 'message' && line.trim()) {
+      message += (message ? '\n' : '') + line;
+    }
   }
-];
+
+  return {
+    id,
+    title: title || `Note ${id}`,
+    emoji: emoji || '💕',
+    image: image || '', // ברירת מחדל ריקה
+    message: message.trim() || ''
+  };
+};
 
 // Admin password - change this to your desired admin password
 const ADMIN_PASSWORD = "admin123"; // You can change this password
@@ -179,6 +64,46 @@ const Index = () => {
   const [showAdminPassword, setShowAdminPassword] = useState(false);
   const [adminError, setAdminError] = useState("");
   const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(false);
+  const [loveNotes, setLoveNotes] = useState<LoveNote[]>([]);
+  const [isLoadingNotes, setIsLoadingNotes] = useState(true);
+
+  // Load notes from files
+  useEffect(() => {
+    const loadNotes = async () => {
+      try {
+        setIsLoadingNotes(true);
+        // Load the index file
+        const indexResponse = await fetch('/notes/index.json');
+        if (!indexResponse.ok) {
+          throw new Error('Failed to load notes index');
+        }
+        const noteIndex: NoteIndex[] = await indexResponse.json();
+
+        // Load each note file
+        const notesPromises = noteIndex.map(async (noteItem) => {
+          const fileResponse = await fetch(`/notes/${noteItem.filename}`);
+          if (!fileResponse.ok) {
+            throw new Error(`Failed to load note ${noteItem.id}`);
+          }
+          const content = await fileResponse.text();
+          return parseNoteFile(content, noteItem.id);
+        });
+
+        const loadedNotes = await Promise.all(notesPromises);
+        // Sort by ID to ensure correct order
+        loadedNotes.sort((a, b) => a.id - b.id);
+        setLoveNotes(loadedNotes);
+      } catch (error) {
+        console.error('Error loading notes:', error);
+        // Fallback to empty array or show error message
+        setLoveNotes([]);
+      } finally {
+        setIsLoadingNotes(false);
+      }
+    };
+
+    loadNotes();
+  }, []);
 
   // Load opened notes from localStorage on mount
   useEffect(() => {
@@ -244,6 +169,74 @@ const Index = () => {
     setAdminError("");
   };
 
+  // Sanitize filename by removing invalid characters
+  const sanitizeFileName = (fileName: string): string => {
+    return fileName
+      .replace(/[<>:"/\\|?*]/g, '') // Remove invalid file name characters
+      .replace(/\s+/g, '_') // Replace spaces with underscores
+      .trim();
+  };
+
+  // Export notes to files
+  const handleExportNotes = async () => {
+    try {
+      // Check if File System Access API is supported
+      if ('showDirectoryPicker' in window) {
+        // Modern approach: Use File System Access API
+        const directoryHandle = await (window as any).showDirectoryPicker({
+          mode: 'readwrite'
+        });
+
+        // Create files for each note
+        for (const note of loveNotes) {
+          const fileName = `${note.id}_${sanitizeFileName(note.title)}.txt`;
+          const fileHandle = await directoryHandle.getFileHandle(fileName, { create: true });
+          const writable = await fileHandle.createWritable();
+          
+          // Format the note content
+          const content = `ID: ${note.id}\nTitle: ${note.title}\nEmoji: ${note.emoji}\n\nMessage:\n${note.message}`;
+          
+          await writable.write(content);
+          await writable.close();
+        }
+
+        if (loveNotes.length > 0) {
+          alert(`הייצוא הושלם בהצלחה! ${loveNotes.length} מכתבים נשמרו בתיקייה שנבחרה.`);
+        }
+      } else {
+        // Fallback: Download files individually
+        for (const note of loveNotes) {
+          const fileName = `${note.id}_${sanitizeFileName(note.title)}.txt`;
+          const content = `ID: ${note.id}\nTitle: ${note.title}\nEmoji: ${note.emoji}\n\nMessage:\n${note.message}`;
+          
+          const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+          const url = URL.createObjectURL(blob);
+          const link = document.createElement('a');
+          link.href = url;
+          link.download = fileName;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          URL.revokeObjectURL(url);
+          
+          // Small delay between downloads to avoid browser blocking
+          await new Promise(resolve => setTimeout(resolve, 100));
+        }
+
+        if (loveNotes.length > 0) {
+          alert(`הייצוא הושלם! ${loveNotes.length} קבצים הורדו. אנא שמרי אותם בתיקייה אחת.`);
+        }
+      }
+    } catch (error: any) {
+      if (error.name === 'AbortError') {
+        // User cancelled the directory picker
+        return;
+      }
+      console.error('Error exporting notes:', error);
+      alert('אירעה שגיאה בייצוא המכתבים. אנא נסי שוב.');
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-[hsl(350,60%,97%)] via-[hsl(345,45%,95%)] to-[hsl(35,60%,95%)] py-12 px-4">
       <div className="max-w-4xl mx-auto">
@@ -254,15 +247,18 @@ const Index = () => {
             <Sparkles className="h-8 w-8 text-[hsl(0,70%,75%)] mr-2 animate-float" style={{ animationDelay: '0.5s' }} />
           </div>
           <h1 className="font-handwriting text-5xl md:text-6xl text-[hsl(340,40%,25%)] mb-4">
-            מכתבי אהבה לשחר
+מזל טוב שחר וברוכה הבאה!
           </h1>
           <p className="font-body text-lg md:text-xl text-[hsl(340,25%,50%)] max-w-2xl mx-auto">
-            שחר יקרה שלי, פתחי כשהלב שלך צריך תזכורת שאת אהובה
-          </p>
+שחר, פתחי כשאת צריכה קצת מילים טובות          </p>
         </div>
 
         {/* Notes Grid */}
-        {!selectedNote ? (
+        {isLoadingNotes ? (
+          <div className="text-center py-12">
+            <p className="font-body text-lg text-[hsl(340,25%,50%)]">טוען מכתבים...</p>
+          </div>
+        ) : !selectedNote ? (
           <div className="flex flex-wrap justify-center gap-6">
             {loveNotes.map((note, index) => (
               <Card
@@ -333,7 +329,7 @@ const Index = () => {
         {/* Footer */}
         <div className="text-center mt-12 animate-fade-in-up">
           <p className="font-body text-sm text-[hsl(340,25%,50%)] mb-4">
-            נעשה באהבה <Heart className="inline h-4 w-4 text-[hsl(345,75%,70%)] fill-[hsl(345,75%,70%)]" /> בשבילך שחר
+נעשה באהבה וקצת בקרינג' <Heart className="inline h-4 w-4 text-[hsl(345,75%,70%)] fill-[hsl(345,75%,70%)]" /> ממיתר לשחר
           </p>
           <Button
             variant="ghost"
@@ -348,17 +344,23 @@ const Index = () => {
 
         {/* Admin Dialog */}
         <Dialog open={isAdminDialogOpen} onOpenChange={handleCloseAdminDialog}>
-          <DialogContent className="font-body">
-            <DialogHeader>
-              <DialogTitle className="font-handwriting text-2xl text-[hsl(340,40%,25%)]">
-                פאנל מנהל
-              </DialogTitle>
-              <DialogDescription className="font-body text-[hsl(340,25%,50%)]">
-                {!isAdminAuthenticated
-                  ? "הכניסי את סיסמת המנהל כדי לגשת לפעולות הניהול"
-                  : "את מחוברת כמנהלת. תוכלי לאפס את כל המכתבים שנפתחו."}
-              </DialogDescription>
-            </DialogHeader>
+        <DialogContent
+          className="w-full max-w-md text-right font-body"
+        >
+          <DialogHeader           style={{
+            direction: 'rtl',
+            left: 'auto',
+            right: '2rem',
+          }}>
+            <DialogTitle className="font-handwriting text-2xl text-[hsl(340,40%,25%)] text-right">
+              פאנל מנהל
+            </DialogTitle>
+            <DialogDescription className="font-body text-[hsl(340,25%,50%)] text-right">
+              {!isAdminAuthenticated
+                ? "הכנס את סיסמת המנהל כדי לגשת לפעולות הניהול"
+                : "את מחוברת כמנהלת. תוכלי לאפס את כל המכתבים שנפתחו."}
+            </DialogDescription>
+          </DialogHeader>
 
             {!isAdminAuthenticated ? (
               <div className="space-y-4">
@@ -420,6 +422,13 @@ const Index = () => {
                   </p>
                 </div>
                 <DialogFooter className="flex-col gap-2">
+                  <Button
+                    onClick={handleExportNotes}
+                    className="w-full font-body bg-[hsl(345,75%,70%)] hover:bg-[hsl(345,75%,65%)] text-white"
+                  >
+                    <Download className="h-4 w-4 ml-2" />
+                    ייצא את כל המכתבים לתיקייה
+                  </Button>
                   <Button
                     onClick={handleResetOpenedNotes}
                     variant="destructive"

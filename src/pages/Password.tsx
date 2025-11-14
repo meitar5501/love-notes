@@ -52,10 +52,10 @@ const Password = () => {
             </div>
           </div>
           <CardTitle className="font-handwriting text-4xl md:text-5xl text-[hsl(340,40%,25%)] mb-2">
-            מכתבי אהבה לשחר
+            מזל טוב!
           </CardTitle>
           <CardDescription className="font-body text-base text-[hsl(340,25%,50%)]">
-            שחר יקרה, הכניסי את הסיסמה כדי לגשת למכתבי האהבה שלך
+            שחר, הכניסי את הסיסמה כדי לגשת למכתבים שלך
           </CardDescription>
         </CardHeader>
         <CardContent>
