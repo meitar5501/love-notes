@@ -1,6 +1,6 @@
 Title: כשאת רעבה
 Emoji: 🍽️
-Image: imgs/omlet.jpg
+Image: /imgs/omlet.jpg
 Message:
 
 שחר היקרה,

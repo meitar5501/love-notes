@@ -1,6 +1,6 @@
 Title: ביום ההולדת שלך
 Emoji: 🎉🎂🎈
-Image: imgs/me_and_shahar_birthday.png
+Image: /imgs/me_and_shahar_birthday.png
 Message:
 שחר היקרה,
 מזל טוב!! לפני שנה פחות 8 ימים נפל משטר אסד – איזו שנה עברה, אה?

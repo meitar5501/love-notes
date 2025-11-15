@@ -1,6 +1,6 @@
 Title: כשאת מרגישה יפה
 Emoji: 🌺
-Image: imgs/beautiful.jpg
+Image: /imgs/beautiful.jpg
 Message:
 
 אם את פותחת את זה, סימן שאת מרגישה יפה — ובצדק.
