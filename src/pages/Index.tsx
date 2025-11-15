@@ -28,6 +28,7 @@ const parseNoteFile = (content: string, id: number): LoveNote => {
   let message = '';
   let image = ''; // שדה חדש לתמונה
   let currentSection = '';
+  let paragraphBuffer = '';
 
   for (const line of lines) {
     if (line.startsWith('Title:')) {
@@ -38,9 +39,23 @@ const parseNoteFile = (content: string, id: number): LoveNote => {
       image = line.replace('Image:', '').trim(); // אחסון נתיב/URL לתמונה
     } else if (line.startsWith('Message:')) {
       currentSection = 'message';
-    } else if (currentSection === 'message' && line.trim()) {
-      message += (message ? '\n' : '') + line;
+    } else if (currentSection === 'message') {
+      if (line.trim() === '') {
+        // If there's text in the buffer, append as a paragraph
+        if (paragraphBuffer) {
+          message += (message ? '\n\n' : '') + paragraphBuffer;
+          paragraphBuffer = '';
+        }
+      } else {
+        // Add line to current paragraph buffer
+        paragraphBuffer += (paragraphBuffer ? '\n' : '') + line;
+      }
     }
+  }
+
+  // Append any remaining text in the buffer
+  if (paragraphBuffer) {
+    message += (message ? '\n\n' : '') + paragraphBuffer;
   }
 
   return {
@@ -194,7 +209,8 @@ const Index = () => {
           const writable = await fileHandle.createWritable();
           
           // Format the note content
-          const content = `ID: ${note.id}\nTitle: ${note.title}\nEmoji: ${note.emoji}\n\nMessage:\n${note.message}`;
+          const imageField = note.image ? `Image: ${note.image}\n` : '';
+          const content = `ID: ${note.id}\nTitle: ${note.title}\nEmoji: ${note.emoji}\n${imageField}\nMessage:\n${note.message}`;
           
           await writable.write(content);
           await writable.close();
@@ -207,7 +223,8 @@ const Index = () => {
         // Fallback: Download files individually
         for (const note of loveNotes) {
           const fileName = `${note.id}_${sanitizeFileName(note.title)}.txt`;
-          const content = `ID: ${note.id}\nTitle: ${note.title}\nEmoji: ${note.emoji}\n\nMessage:\n${note.message}`;
+          const imageField = note.image ? `Image: ${note.image}\n` : '';
+          const content = `ID: ${note.id}\nTitle: ${note.title}\nEmoji: ${note.emoji}\n${imageField}\nMessage:\n${note.message}`;
           
           const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
           const url = URL.createObjectURL(blob);
@@ -250,7 +267,7 @@ const Index = () => {
 מזל טוב שחר וברוכה הבאה!
           </h1>
           <p className="font-body text-lg md:text-xl text-[hsl(340,25%,50%)] max-w-2xl mx-auto">
-שחר, פתחי כשאת צריכה קצת מילים טובות          </p>
+  פתחי את המכתבים בזמן המתאים :)</p>
         </div>
 
         {/* Notes Grid */}
@@ -308,9 +325,21 @@ const Index = () => {
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
-                <p className="font-body text-lg md:text-xl leading-relaxed text-[hsl(340,40%,25%)] text-center px-4">
-                  {selectedNote.message}
-                </p>
+                {selectedNote.image && (
+                  <div className="flex justify-center">
+                    <img 
+                      src={selectedNote.image} 
+                      alt={selectedNote.title}
+                      className="max-w-full h-auto rounded-lg max-h-96 object-cover shadow-md"
+                    />
+                  </div>
+                )}
+<p
+  className="font-body text-lg md:text-xl leading-relaxed text-[hsl(340,40%,25%)] text-center px-4"
+  style={{ whiteSpace: 'pre-line' }}
+>
+  {selectedNote.message}
+</p>
                 <div className="flex justify-center pt-4">
                   <Button
                     onClick={handleCloseNote}
