@@ -106,7 +106,7 @@ const Index = () => {
 
         const loadedNotes = await Promise.all(notesPromises);
         // Sort by ID to ensure correct order
-        loadedNotes.sort((a, b) => a.id - b.id);
+        loadedNotes.sort(() => Math.random() - 0.5);
         setLoveNotes(loadedNotes);
       } catch (error) {
         console.error('Error loading notes:', error);
